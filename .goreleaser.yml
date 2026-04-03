@@ -1,0 +1,58 @@
+version: 2
+
+project_name: goreleaser-ls
+
+pre:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - main: ./cmd/goreleaser-ls
+    id: goreleaser
+    binary: goreleaser-ls
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.bad={{ .Nope }}
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - ids:
+      - goreleaser
+      - missing
+  - formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+      - "^chore:"
+
+brews:
+  - name: test-app
+
+release:
+  extra_files:
+    - glob: vscode-goreleaser-ls/*.vsix
