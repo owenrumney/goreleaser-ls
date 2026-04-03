@@ -7,4 +7,3 @@ vscode-goreleaser-ls/node_modules/
 vscode-goreleaser-ls/out/
 vscode-goreleaser-ls/bin/
 vscode-goreleaser-ls/*.vsix
-vscode-goreleaser-ls/README.md
