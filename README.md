@@ -31,6 +31,20 @@ Download a `.vsix` from the [releases page](https://github.com/owenrumney/gorele
 code --install-extension goreleaser-ls-*.vsix
 ```
 
+## Schema
+
+The configuration schema is generated from the official [GoReleaser JSON schemas](https://github.com/goreleaser/goreleaser/tree/main/www/static), covering both OSS and Pro variants. The language server automatically selects the Pro schema when `pro: true` is present in your config.
+
+To regenerate after upstream schema changes:
+
+```sh
+make generate
+```
+
+## Built with
+
+- [go-lsp](https://github.com/owenrumney/go-lsp) — Language Server Protocol framework for Go
+
 ## Configuration
 
 | Setting | Default | Description |
