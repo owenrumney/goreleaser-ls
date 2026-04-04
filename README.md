@@ -15,15 +15,19 @@ A language server for `.goreleaser.yml` files, providing editor support via the 
 
 ## Installation
 
-### VS Code Marketplace
+### VS Code / OpenVSX
 
-Search for **GoReleaser Language Server** in the Extensions panel, or install from the command line:
+Search for **GoReleaser Language Server** in the Extensions panel. Available on both the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=owenrumney.goreleaser-ls) and [OpenVSX](https://open-vsx.org/extension/owenrumney/goreleaser-ls), or install from the command line:
 
 ```sh
 code --install-extension owenrumney.goreleaser-ls
 ```
 
-### Manual
+### Neovim
+
+See [goreleaser-ls.nvim](https://github.com/owenrumney/goreleaser-ls.nvim) for Neovim integration.
+
+### Manual (VS Code)
 
 Download a `.vsix` from the [releases page](https://github.com/owenrumney/goreleaser-ls/releases) and install it:
 
