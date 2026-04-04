@@ -43,6 +43,9 @@ linters:
       - linters:
           - revive
         text: "var-naming: avoid meaningless package names"
+      - path: internal/schema/gen/
+        linters:
+          - gosec
 run:
   timeout: 30m
   issues-exit-code: 1
