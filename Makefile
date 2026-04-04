@@ -1,4 +1,4 @@
-.PHONY: build test clean lint extension extension-target extension-install
+.PHONY: build test clean lint generate extension extension-target extension-install
 
 GO_MODULE := github.com/owenrumney/goreleaser-ls
 BINARY := goreleaser-ls
@@ -16,6 +16,9 @@ clean:
 
 lint:
 	golangci-lint run ./...
+
+generate:
+	go generate ./internal/schema/...
 
 # Build all platform .vsix files.
 extension: test
