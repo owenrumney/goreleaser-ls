@@ -79,6 +79,7 @@ func (h *Handler) DidOpen(ctx context.Context, params *lsp.DidOpenTextDocumentPa
 	cfg := h.parsed[uri]
 	h.mu.Unlock()
 
+	updateSchemaVariant(cfg)
 	h.publishDiagnostics(ctx, uri, cfg)
 	return nil
 }
@@ -95,6 +96,7 @@ func (h *Handler) DidChange(ctx context.Context, params *lsp.DidChangeTextDocume
 	cfg := h.parsed[uri]
 	h.mu.Unlock()
 
+	updateSchemaVariant(cfg)
 	h.publishDiagnostics(ctx, uri, cfg)
 	return nil
 }
@@ -118,6 +120,19 @@ func (h *Handler) DidSave(ctx context.Context, params *lsp.DidSaveTextDocumentPa
 
 	h.publishDiagnostics(ctx, uri, cfg)
 	return nil
+}
+
+func updateSchemaVariant(cfg *model.Config) {
+	if cfg == nil {
+		return
+	}
+	for _, n := range cfg.Nodes {
+		if n.Key == "pro" && n.Value == "true" {
+			schema.UsePro()
+			return
+		}
+	}
+	schema.UseOSS()
 }
 
 func (h *Handler) publishDiagnostics(ctx context.Context, uri lsp.DocumentURI, cfg *model.Config) {

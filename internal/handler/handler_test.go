@@ -86,7 +86,7 @@ func TestHover_KnownKey(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	assert.Contains(t, result.Contents.Value, "builds")
-	assert.Contains(t, result.Contents.Value, "Build configurations")
+	assert.Contains(t, result.Contents.Value, "Builds configuration")
 }
 
 func TestHover_DeprecatedKey(t *testing.T) {
