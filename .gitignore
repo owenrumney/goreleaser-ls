@@ -1,6 +1,7 @@
 bin/
 dist/
 coverage.out
+internal/schema/gen/gen
 
 # VS Code extension
 vscode-goreleaser-ls/node_modules/
