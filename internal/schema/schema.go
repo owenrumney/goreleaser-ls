@@ -2,6 +2,8 @@ package schema
 
 //go:generate go run ./gen -out .
 
+import "sync"
+
 // FieldType describes what kind of value a field expects.
 type FieldType int
 
@@ -27,56 +29,67 @@ type Field struct {
 	EnumValues  []string
 }
 
+var (
+	mu       sync.RWMutex
+	topLevel = ossFields
+)
+
 // TopLevel returns the schema fields for the active variant (OSS or Pro).
-var TopLevel = ossFields
+func TopLevelFields() []*Field {
+	mu.RLock()
+	defer mu.RUnlock()
+	return topLevel
+}
 
 // UsePro switches the active schema to the Pro variant.
 func UsePro() {
-	TopLevel = proFields
+	mu.Lock()
+	defer mu.Unlock()
+	topLevel = proFields
 }
 
 // UseOSS switches the active schema to the OSS variant.
 func UseOSS() {
-	TopLevel = ossFields
+	mu.Lock()
+	defer mu.Unlock()
+	topLevel = ossFields
 }
 
 // Lookup returns the field definition for the given YAML key path.
 func Lookup(path ...string) *Field {
-	fields := TopLevel
+	mu.RLock()
+	fields := topLevel
+	mu.RUnlock()
+
+	var matched *Field
 	for i, key := range path {
+		matched = nil
 		for _, f := range fields {
 			if f.Key == key {
-				if i == len(path)-1 {
-					return f
+				matched = f
+				if i < len(path)-1 {
+					fields = f.Children
 				}
-				fields = f.Children
 				break
 			}
 		}
+		if matched == nil {
+			return nil
+		}
 	}
-	return nil
+	return matched
 }
 
 // ChildKeys returns the valid child keys for the given path.
 func ChildKeys(path ...string) []*Field {
 	if len(path) == 0 {
-		return TopLevel
+		return TopLevelFields()
 	}
 	f := Lookup(path...)
 	if f != nil {
 		return f.Children
 	}
 	return nil
-}
-
-// IsValidTopLevelKey returns true if the key is a known top-level goreleaser key.
-func IsValidTopLevelKey(key string) bool {
-	for _, f := range TopLevel {
-		if f.Key == key {
-			return true
-		}
-	}
-	return false
 }
 
 // TemplateVars lists goreleaser template variables available in string fields.

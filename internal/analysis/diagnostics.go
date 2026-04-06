@@ -63,7 +63,7 @@ func checkUnknownKeysRecursive(nodes []*model.Node, parentPath []string, diags *
 		return
 	}
 	if validFields == nil {
-		validFields = schema.TopLevel
+		validFields = schema.TopLevelFields()
 	}
 
 	fieldMap := make(map[string]bool, len(validFields))
