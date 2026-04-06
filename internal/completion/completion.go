@@ -24,7 +24,7 @@ func Complete(cfg *model.Config, text string, pos lsp.Position) []lsp.Completion
 	fields := schema.ChildKeys(path...)
 
 	if fields == nil && len(path) == 0 {
-		fields = schema.TopLevel
+		fields = schema.TopLevelFields()
 	}
 
 	// Filter out keys that already exist at this level.
