@@ -3,7 +3,7 @@ module github.com/owenrumney/goreleaser-ls
 go 1.25
 
 require (
-	github.com/owenrumney/go-lsp v0.1.4
+	github.com/owenrumney/go-lsp v0.2.4
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
 )
