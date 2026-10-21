@@ -1,6 +1,6 @@
 module github.com/owenrumney/goreleaser-ls
 
-go 1.25
+go 1.26.10
 
 require (
 	github.com/owenrumney/go-lsp v0.2.4
